@@ -17,9 +17,12 @@ COPY . /app/backend
 
 EXPOSE 8000
 
-# Apply database migrations
-RUN python manage.py migrate
-RUN python manage.py makemigrations
+# ✅ Set environment variables for MySQL (Adjust values as per your setup)
+ENV DB_NAME=your_database_name
+ENV DB_USER=your_database_user
+ENV DB_PASSWORD=your_database_password
+ENV DB_HOST=your_database_host
+ENV DB_PORT=3306
 
-# ✅ Start the Django application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# ✅ Run the migrations inside CMD to ensure the database is available
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
